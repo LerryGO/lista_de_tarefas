@@ -147,7 +147,8 @@ class _HomeState extends State<Home> {
       onDismissed: (direction) {
         setState(
           () {
-            _lastRemoved = Map.from(_toDoList[index]); //salvando o mapa que está sendo excluido
+            _lastRemoved = Map.from(
+                _toDoList[index]); //salvando o mapa que está sendo excluido
             _lastRemovedPost = index; // pegando o indice dele
             _toDoList.removeAt(index); //removendo o objeto do mapa
 
@@ -158,14 +159,19 @@ class _HomeState extends State<Home> {
               action: SnackBarAction(
                 label: "Desfazer",
                 onPressed: () {
-                  _toDoList.insert(_lastRemovedPost!, _lastRemoved); //Reinserindo o ultimo objeto excluido do mapa
-                  _saveData();
+                  setState(() {
+                    _toDoList.insert(_lastRemovedPost!,
+                        _lastRemoved); //Reinserindo o ultimo objeto excluido do mapa
+                    _saveData();
+                  });
                 },
               ),
               duration: const Duration(seconds: 2),
             );
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();   //Removendo a Snackbar atual
-            ScaffoldMessenger.of(context).showSnackBar(snack); // Mostrando a nova snackbar
+            ScaffoldMessenger.of(context)
+                .removeCurrentSnackBar(); //Removendo a Snackbar atual
+            ScaffoldMessenger.of(context)
+                .showSnackBar(snack); // Mostrando a nova snackbar
           },
         );
       },
