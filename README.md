@@ -1,16 +1,11 @@
-# lista_tarefas
 
-A new Flutter project.
+![lista_tarefas](https://user-images.githubusercontent.com/56898536/143251724-7c4c1543-9033-40d7-a70b-769dc680b4b7.png)
 
-## Getting Started
+# Lista de Tarefas
 
-This project is a starting point for a Flutter application.
+Aplicativo feito em Flutter com o propósito de listagem de tarefas, podendo adicionar, marcar como feito, deletar arrastando o item para a direita e retornar a ação
 
-A few resources to get you started if this is your first Flutter project:
+## Baseado no curso de Flutter
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Curso feito por Daniel Ciolfi
+Disponível na Udemy
