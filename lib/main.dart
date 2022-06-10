@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Home(),
     ),
   );
@@ -36,15 +39,22 @@ class _HomeState extends State<Home> {
   }
 
   void _addToDo() {
-    setState(() {
-      Map<String, dynamic> newTodo = {};
-      newTodo["title"] = _toDoController.text;
-      _toDoController.text = "";
-      newTodo["ok"] = false;
-      _toDoList.add(newTodo);
-
-      _saveData();
-    });
+    _toDoController.text.isEmpty
+        ? ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+              "O Campo deve ser preenchido",
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          ))
+        : setState(() {
+            Map<String, dynamic> newToDo = Map();
+            newToDo['title'] = _toDoController.text;
+            _toDoController.text = '';
+            newToDo['ok'] = false;
+            _toDoList.add(newToDo);
+            _saveData();
+          });
   }
 
   Future<void> _refresh() async {
@@ -73,6 +83,40 @@ class _HomeState extends State<Home> {
         title: const Text("Lista de Tarefas"),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.rocket_launch),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/team.png"),
+                            Text("Integrantes:",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green[800],
+                                    fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 10),
+                            const Text("Lerry Augusto"),
+                            const Text("Viviane Gabriela"),
+                            const Text("Gabriel Castro"),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -112,6 +156,18 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
+          Container(
+            margin: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.orange[200]),
+            child: const Text("Para excluir a tarefa, arraste para a direita",
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold)),
+          )
         ],
       ),
     );
@@ -122,11 +178,23 @@ class _HomeState extends State<Home> {
       key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
       background: Container(
         color: Colors.red,
-        child: const Align(
-          alignment: Alignment(-0.9, 0),
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
+        child: Align(
+          alignment: const Alignment(-0.9, 0),
+          child: Row(
+            children: const [
+              Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Excluir",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15)),
+              )
+            ],
           ),
         ),
       ),
